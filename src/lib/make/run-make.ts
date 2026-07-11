@@ -56,7 +56,12 @@ export async function runMakeForDrop(dropId: string) {
     let lastError: string | null = null
     let succeeded = false
 
-    for (let attempt = slide.retry_count; attempt < MAX_RETRIES; attempt++) {
+    // Sempre recomeça do zero nesta chamada: slide.retry_count é o total
+    // acumulado de tentativas passadas (para auditoria), não um limite que
+    // deveria bloquear um novo clique manual em "Gerar Imagens" — usá-lo
+    // como início do loop fazia um slide já esgotado (retry_count===MAX)
+    // pular a tentativa inteira e voltar a 'failed' sem nem chamar a API.
+    for (let attempt = 0; attempt < MAX_RETRIES; attempt++) {
       try {
         const buffer = await generateImage({ prompt: slide.prompt, aspectRatio, provider, model })
         const url = await uploadSlideImage({
