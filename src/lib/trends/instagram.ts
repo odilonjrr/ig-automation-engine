@@ -75,9 +75,12 @@ export async function fetchHashtagTopMedia(params: {
     const likes = item.like_count ?? 0
     const comments = item.comments_count ?? 0
     // IG não expõe "reach" de posts de terceiros via hashtag search;
-    // usamos um proxy conservador baseado em likes para não dividir por algo
-    // artificialmente pequeno no cálculo de engagement_score.
-    const reachProxy = Math.max(likes * 20, 1)
+    // usamos um proxy conservador baseado em likes/comments. Alguns posts
+    // aparecem com like_count=0 (a IG às vezes esconde a contagem) — sem um
+    // piso maior que 1, esses posts explodiam o engagement_score (dividindo
+    // comentários por quase nada), sempre "vencendo" por erro de cálculo,
+    // não por relevância real.
+    const reachProxy = Math.max(likes * 20, comments * 20, 100)
 
     return {
       platform: 'instagram' as const,
