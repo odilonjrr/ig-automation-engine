@@ -40,7 +40,8 @@ export async function GET(req: NextRequest) {
     const pagesWithIg = pages.filter((p) => p.instagram_business_account)
 
     if (pagesWithIg.length === 0) {
-      // Log temporário de diagnóstico — remover depois de identificar a causa.
+      // Log de diagnóstico — útil pra depurar por que uma Página esperada não
+      // veio na resposta (ex: falta de escopo, Página de outro Business Manager).
       console.error(
         'no_ig_business_account — páginas retornadas pela Graph API:',
         JSON.stringify(pages, null, 2)

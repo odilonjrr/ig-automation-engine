@@ -28,6 +28,11 @@ export function buildMetaAuthUrl(state: string) {
     'instagram_manage_comments',
     'pages_show_list',
     'pages_read_engagement',
+    // Necessário desde a v18 da Graph API para /me/accounts retornar
+    // Páginas pertencentes a um Portfólio de Negócios (Business Manager) —
+    // sem isso, Páginas com dono empresarial somem da lista mesmo com o
+    // usuário tendo acesso total a elas.
+    'business_management',
   ].join(',')
 
   const params = new URLSearchParams({

@@ -126,10 +126,17 @@ aprovado, você consegue testar com sua própria conta em modo desenvolvedor
 Tester" pelo app do Instagram). O fluxo usado é o **"Instagram API with
 Facebook Login"** (OAuth dialog clássico, host `graph.facebook.com`) — os
 escopos corretos são `instagram_basic`, `instagram_content_publish`,
-`instagram_manage_comments`, `pages_show_list`, `pages_read_engagement`
-(já incluídos em `buildMetaAuthUrl`). Os nomes com prefixo
-`instagram_business_*` pertencem a um fluxo diferente (Instagram Login
-direto) e retornam "Invalid Scopes" nesse OAuth dialog.
+`instagram_manage_comments`, `pages_show_list`, `pages_read_engagement` e
+`business_management` (já incluídos em `buildMetaAuthUrl`). Os nomes com
+prefixo `instagram_business_*` pertencem a um fluxo diferente (Instagram
+Login direto) e retornam "Invalid Scopes" nesse OAuth dialog.
+
+⚠️ **Páginas de um Business Manager**: desde a v18 da Graph API,
+`/me/accounts` só retorna Páginas pertencentes a um Portfólio de Negócios
+se o login incluir `business_management` — sem isso, a Página simplesmente
+não aparece na lista (mesmo com o usuário tendo acesso total a ela),
+resultando em `no_ig_business_account` no callback mesmo com a conta do
+Instagram corretamente vinculada à Página.
 
 ⚠️ **Limite importante**: a API do Meta permite consultar no máximo **30
 hashtags únicas a cada 7 dias** por IG User ID. Configure poucas hashtags
