@@ -1,6 +1,7 @@
 import { supabaseAdmin, requireUser } from '@/lib/supabase-server'
 import { notFound } from 'next/navigation'
 import RunSenseButton from '@/components/RunSenseButton'
+import ClearTrendsButton from '@/components/ClearTrendsButton'
 
 export const dynamic = 'force-dynamic'
 
@@ -32,7 +33,10 @@ export default async function TrendsPage({ params }: { params: { id: string } })
 
       <div className="flex items-center justify-between mt-2 mb-1">
         <h1 className="text-2xl font-bold">Tendências — @{account.ig_username}</h1>
-        <RunSenseButton accountId={params.id} />
+        <div className="flex items-center gap-2">
+          <ClearTrendsButton accountId={params.id} />
+          <RunSenseButton accountId={params.id} />
+        </div>
       </div>
 
       <p className="text-neutral-500 text-sm mb-6">
