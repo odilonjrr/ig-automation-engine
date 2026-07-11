@@ -3,7 +3,8 @@
 Fundação do pipeline: schema Supabase multi-conta + conexão de contas via Meta OAuth
 (com formulário de configuração de janela de postagem e "DNA visual" da marca).
 
-> Deploy inicial: Vercel + Supabase configurados (2026-07-11).
+> Deploy inicial: Vercel + Supabase configurados (2026-07-11). Rebuild forçado
+> às 13:27 para descartar cache de build com env vars antigas.
 
 ## O que está pronto nesta fase
 
