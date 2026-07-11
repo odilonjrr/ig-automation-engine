@@ -78,7 +78,7 @@ export async function exchangeForLongLivedToken(shortLivedToken: string) {
 // ------------------------------------------------------------
 export async function getPagesAndInstagramAccounts(userToken: string) {
   const res = await fetch(
-    `${GRAPH_BASE}/me/accounts?fields=id,name,access_token,instagram_business_account{id,username}&access_token=${userToken}`
+    `${GRAPH_BASE}/me/accounts?fields=id,name,access_token,instagram_business_account{id,username}&limit=200&access_token=${userToken}`
   )
   if (!res.ok) throw new Error(`Falha ao buscar páginas: ${await res.text()}`)
 
