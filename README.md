@@ -3,6 +3,8 @@
 Fundação do pipeline: schema Supabase multi-conta + conexão de contas via Meta OAuth
 (com formulário de configuração de janela de postagem e "DNA visual" da marca).
 
+> Deploy inicial: Vercel + Supabase configurados (2026-07-11).
+
 ## O que está pronto nesta fase
 
 - ✅ Schema Supabase completo (`supabase/migrations/0001_init.sql` +
