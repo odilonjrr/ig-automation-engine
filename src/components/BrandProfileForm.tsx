@@ -62,8 +62,11 @@ export default function BrandProfileForm({ accountId, account, existingProfile }
     setSaving(true)
     const payload = {
       ...form,
+      // Aceita vírgula OU espaço como separador (usuários costumam digitar
+      // hashtags no estilo "#foo #bar", sem vírgula) e remove o '#' de cada
+      // termo individualmente, não só do início da string inteira.
       target_hashtags: form.target_hashtags
-        .split(',')
+        .split(/[,\s]+/)
         .map((s) => s.trim().replace(/^#/, ''))
         .filter(Boolean),
       target_youtube_keywords: form.target_youtube_keywords
