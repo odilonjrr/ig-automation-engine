@@ -188,11 +188,12 @@ para exercitar o caminho de **post simples** em vez do de **carrossel**.
 
 ## ⚠️ Nota operacional importante: cron frequente para publicar
 
-O `vercel.json` já agenda `/api/cron/ship-publish` a cada 10 minutos
-(`*/10 * * * *`), mas **o Vercel Cron no plano Hobby só permite intervalo
-mínimo de 1x/dia** — o cron frequente só funciona de verdade no plano Pro.
+`/api/cron/ship-publish` precisa rodar a cada poucos minutos para publicar no
+horário certo, mas **o Vercel Cron no plano Hobby só permite intervalo mínimo
+de 1x/dia** — por isso essa rota **não** está no `vercel.json` (declarar um
+cron mais frequente que 1x/dia lá bloqueia o deploy inteiro no Hobby).
 
-Alternativas gratuitas se você estiver no Hobby:
+Em vez disso, use um serviço externo gratuito para chamá-la periodicamente:
 - **cron-job.org** (grátis): configure uma chamada GET a cada 5-10min pra
   `https://seudominio.vercel.app/api/cron/ship-publish` com o header
   `Authorization: Bearer <CRON_SECRET>`.
