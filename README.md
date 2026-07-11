@@ -118,12 +118,18 @@ onde as imagens geradas pelo DALL-E 3 ficam antes de serem publicadas.
 
 ### 3. App Meta
 
-No developers.facebook.com, crie um app tipo **Business**, adicione o produto
-**Instagram Graph API**, e configure o Redirect URI exatamente igual ao
-`META_REDIRECT_URI`. Enquanto o App Review não é aprovado, você consegue
-testar com sua própria conta em modo desenvolvedor (adicione-a como
-Tester/Admin no app). O hashtag search exige o escopo
-`instagram_business_content_publish` — já incluído no `buildMetaAuthUrl`.
+No developers.facebook.com, crie um app tipo **Business**, adicione os produtos
+**Facebook Login** e **Instagram Graph API**, e configure o Redirect URI
+exatamente igual ao `META_REDIRECT_URI`. Enquanto o App Review não é
+aprovado, você consegue testar com sua própria conta em modo desenvolvedor
+(adicione-a como Tester/Admin no app, e aceite o convite de "Instagram
+Tester" pelo app do Instagram). O fluxo usado é o **"Instagram API with
+Facebook Login"** (OAuth dialog clássico, host `graph.facebook.com`) — os
+escopos corretos são `instagram_basic`, `instagram_content_publish`,
+`instagram_manage_comments`, `pages_show_list`, `pages_read_engagement`
+(já incluídos em `buildMetaAuthUrl`). Os nomes com prefixo
+`instagram_business_*` pertencem a um fluxo diferente (Instagram Login
+direto) e retornam "Invalid Scopes" nesse OAuth dialog.
 
 ⚠️ **Limite importante**: a API do Meta permite consultar no máximo **30
 hashtags únicas a cada 7 dias** por IG User ID. Configure poucas hashtags

@@ -18,10 +18,14 @@ const fakeId = (kind: string) => ({ id: `dryrun-${kind}-${randomUUID().slice(0, 
 // 1. OAuth: URL de autorização
 // ------------------------------------------------------------
 export function buildMetaAuthUrl(state: string) {
+  // Nomes de escopo do fluxo "Instagram API with Facebook Login" (OAuth
+  // dialog clássico em facebook.com/dialog/oauth, host graph.facebook.com).
+  // Os nomes com prefixo "instagram_business_*" são de um fluxo DIFERENTE
+  // (Instagram Login direto) e são rejeitados como "Invalid Scopes" aqui.
   const scopes = [
-    'instagram_business_basic',
-    'instagram_business_content_publish',
-    'instagram_business_manage_comments',
+    'instagram_basic',
+    'instagram_content_publish',
+    'instagram_manage_comments',
     'pages_show_list',
     'pages_read_engagement',
   ].join(',')
