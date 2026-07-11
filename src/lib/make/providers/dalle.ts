@@ -25,18 +25,34 @@ export async function generateWithDalle(params: {
 }): Promise<Buffer> {
   const client = new OpenAI({ apiKey: process.env.OPENAI_API_KEY })
 
-  const response = await client.images.generate({
-    model: params.model || 'dall-e-3',
-    prompt: params.prompt,
-    size: mapAspectRatioToSize(params.aspectRatio),
-    quality: 'standard',
-    response_format: 'b64_json',
-    n: 1,
-  })
+  const model = params.model?.trim() || 'dall-e-3'
+  const size = mapAspectRatioToSize(params.aspectRatio)
+  const base = { model, prompt: params.prompt, size, n: 1 as const }
 
-  const b64 = response.data?.[0]?.b64_json
-  if (!b64) {
-    throw new Error('DALL-E 3 não retornou dados de imagem (b64_json ausente)')
+  let response
+  try {
+    // dall-e-2/dall-e-3 aceitam response_format (pedimos b64_json direto,
+    // sem round-trip por URL). gpt-image-1 rejeita esse parâmetro como
+    // desconhecido — cai no catch e refaz sem ele.
+    response = await client.images.generate({
+      ...base,
+      quality: 'standard',
+      response_format: 'b64_json',
+    })
+  } catch (err: any) {
+    if (!String(err?.message).includes("Unknown parameter: 'response_format'")) throw err
+    response = await client.images.generate(base)
   }
-  return Buffer.from(b64, 'base64')
+
+  const first = response.data?.[0]
+  if (first?.b64_json) return Buffer.from(first.b64_json, 'base64')
+
+  // Fallback: se a API devolveu uma URL em vez de b64_json, baixa a imagem.
+  if (first?.url) {
+    const res = await fetch(first.url)
+    if (!res.ok) throw new Error(`Falha ao baixar imagem da URL retornada: ${res.status}`)
+    return Buffer.from(await res.arrayBuffer())
+  }
+
+  throw new Error(`${model} não retornou dados de imagem (nem b64_json nem url)`)
 }
