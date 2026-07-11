@@ -75,7 +75,8 @@ export async function exchangeForLongLivedToken(shortLivedToken: string) {
 
   const res = await fetch(`${GRAPH_BASE}/oauth/access_token?${params.toString()}`)
   if (!res.ok) throw new Error(`Falha ao gerar long-lived token: ${await res.text()}`)
-  return res.json() as Promise<{ access_token: string; token_type: string; expires_in: number }>
+  // expires_in às vezes vem ausente na resposta real da Graph API.
+  return res.json() as Promise<{ access_token: string; token_type: string; expires_in?: number }>
 }
 
 // ------------------------------------------------------------

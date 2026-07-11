@@ -34,6 +34,16 @@ export async function GET(req: NextRequest) {
 
     // 2. short-lived -> long-lived (60 dias)
     const longLived = await exchangeForLongLivedToken(shortLived.access_token)
+    if (!longLived.expires_in) {
+      console.error(
+        'exchangeForLongLivedToken sem expires_in — resposta:',
+        JSON.stringify(longLived)
+      )
+    }
+    // Fallback: token de Página vinculado a um long-lived user token não
+    // expira por padrão (a Graph API às vezes omite expires_in nesse caso);
+    // 60 dias é a duração documentada do long-lived token quando presente.
+    const expiresInSeconds = longLived.expires_in || 60 * 24 * 60 * 60
 
     // 3. descobre Páginas + contas IG Business vinculadas
     const pages = await getPagesAndInstagramAccounts(longLived.access_token)
@@ -59,7 +69,7 @@ export async function GET(req: NextRequest) {
     const ownerUserId = user.id
 
     const db = supabaseAdmin()
-    const expiresAt = new Date(Date.now() + longLived.expires_in * 1000)
+    const expiresAt = new Date(Date.now() + expiresInSeconds * 1000)
 
     // 4. salva cada conta IG encontrada, com o token da Página (não o de usuário)
     for (const page of pagesWithIg) {
