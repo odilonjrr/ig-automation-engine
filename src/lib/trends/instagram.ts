@@ -59,6 +59,10 @@ export async function fetchHashtagTopMedia(params: {
     'fields',
     'id,caption,like_count,comments_count,permalink,timestamp,media_type'
   )
+  // Sem limit explícito, esse edge às vezes devolve erro genérico "Please
+  // reduce the amount of data you're asking for" (code 1) — 10 é de sobra
+  // pro nosso uso (só pegamos o topo por engagement_score depois).
+  url.searchParams.set('limit', '10')
   url.searchParams.set('access_token', params.accessToken)
 
   const res = await fetch(url.toString())
