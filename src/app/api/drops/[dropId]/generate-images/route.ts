@@ -2,6 +2,10 @@ import { NextRequest, NextResponse } from 'next/server'
 import { runMakeForDrop } from '@/lib/make/run-make'
 import { getSessionUser, userOwnsDrop } from '@/lib/supabase-server'
 
+// Gera N slides sequencialmente (com retry) — o padrão do Vercel (10s)
+// estoura fácil com vários slides. 60s é o teto permitido no plano Hobby.
+export const maxDuration = 60
+
 /**
  * POST /api/drops/[dropId]/generate-images
  * Gera (ou regera, para slides que falharam) as imagens de um drop.

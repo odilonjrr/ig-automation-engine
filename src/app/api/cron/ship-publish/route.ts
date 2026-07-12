@@ -1,6 +1,11 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { publishDueQueueItems } from '@/lib/ship/run-publish'
 
+// Publicar um carrossel envolve várias chamadas sequenciais à Graph API
+// (1 por slide + container + publish) — o padrão do Vercel (10s) estoura
+// fácil. 60s é o teto permitido no plano Hobby.
+export const maxDuration = 60
+
 /**
  * GET/POST /api/cron/ship-publish
  * Precisa rodar a cada poucos minutos (ex: a cada 5-10min) para que o

@@ -2,6 +2,12 @@ import { NextRequest, NextResponse } from 'next/server'
 import { supabaseAdmin } from '@/lib/supabase-server'
 import { runMakeForDrop } from '@/lib/make/run-make'
 
+// Gera imagens para TODOS os drops 'draft' de todas as contas, cada um com
+// vários slides sequenciais — o padrão do Vercel (10s) estoura fácil.
+// 60s é o teto permitido no plano Hobby (pode não ser suficiente com muitas
+// contas ativas ao mesmo tempo — nesse caso, considerar o plano Pro).
+export const maxDuration = 60
+
 /**
  * GET/POST /api/cron/make
  * Roda depois do /api/cron/think (agendar ~15-30min depois). Gera imagens
