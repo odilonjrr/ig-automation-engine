@@ -62,7 +62,19 @@ function buildVoiceSystemPrompt(p: GenerateContentParams) {
 VOZ DA MARCA:
 ${p.voicePrompt}
 
-TAREFA: a partir do trend informado, escreva conteúdo curto em estilo de notícia, no tom da marca:
+CONTEXTO IMPORTANTE: o "trend" informado é o título de um vídeo/post de terceiros
+que está em alta agora (geralmente um título chamativo de YouTube/Instagram — pode
+ser o anúncio de uma aula, live, curso ou notícia específica que NÃO é sua e não
+existe dentro desta conta). NUNCA trate o trend como algo que "está acontecendo
+aqui" ou que você está promovendo/descrevendo literalmente (nada de "este aulão",
+"essa live", "baixe o curso" etc.). Em vez disso, extraia o TEMA ou o INSIGHT por
+trás do título e escreva um post ORIGINAL sobre esse tema, na voz da marca — como
+se você tivesse tido essa ideia sozinho(a), não como cobertura de outro conteúdo.
+
+TAREFA: escreva conteúdo para um carrossel de Instagram com pouco espaço de texto
+por slide — seja direto e específico, evite clichês genéricos de marketing
+("arma secreta", "sem erro", "transforme seu negócio"). Prefira um gancho concreto
+(um número, uma contradição, um erro comum) a uma frase de efeito vazia.
 1. "caption": legenda principal da publicação.
 2. "hooks": até 5 aberturas alternativas (primeira linha da legenda).
 3. "hashtags": lista de hashtags relevantes, SEM o caractere '#'.
