@@ -1,5 +1,6 @@
 import { supabaseAdmin, requireUser } from '@/lib/supabase-server'
 import { notFound } from 'next/navigation'
+import CancelQueueButton from '@/components/CancelQueueButton'
 
 export const dynamic = 'force-dynamic'
 
@@ -77,6 +78,9 @@ export default async function QueuePage({ params }: { params: { id: string } }) 
                     })}
                   </p>
                 </div>
+                {q.status === 'scheduled' && (
+                  <CancelQueueButton accountId={params.id} queueId={q.id} />
+                )}
               </div>
             )
           })}
