@@ -276,7 +276,7 @@ export default function BrandProfileForm({ accountId, account, existingProfile }
                   ? 'fal-ai/flux/dev'
                   : form.image_provider === 'replicate'
                   ? 'black-forest-labs/flux-dev'
-                  : 'dall-e-3'
+                  : 'gpt-image-1'
               }
               value={form.image_model}
               onChange={(e) => update('image_model', e.target.value)}
