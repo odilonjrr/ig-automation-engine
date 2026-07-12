@@ -15,6 +15,7 @@ export default async function AccountsPage({
     .from('accounts')
     .select('id, ig_username, is_active, post_window_start, post_window_end, timezone, token_expires_at')
     .eq('owner_user_id', user.id)
+    .order('is_active', { ascending: false })
     .order('created_at', { ascending: false })
 
   return (

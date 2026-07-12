@@ -2,6 +2,7 @@
 
 import { useState } from 'react'
 import { useRouter } from 'next/navigation'
+import LogoUploadField from './LogoUploadField'
 
 interface Props {
   accountId: string
@@ -22,6 +23,7 @@ interface Props {
     aspect_ratio?: string
     image_provider?: string
     image_model?: string | null
+    logo_url?: string | null
     target_hashtags?: string[]
     target_youtube_keywords?: string[]
     youtube_region_code?: string
@@ -146,6 +148,12 @@ export default function BrandProfileForm({ accountId, account, existingProfile }
               onChange={(e) => update('name', e.target.value)}
             />
           </div>
+
+          <LogoUploadField
+            accountId={accountId}
+            initialLogoUrl={existingProfile?.logo_url}
+            profileSaved={Boolean(existingProfile?.id)}
+          />
 
           <div className="grid grid-cols-2 gap-4">
             <div>
